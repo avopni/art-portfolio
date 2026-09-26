@@ -1,0 +1,8 @@
+node_modules/
+dist/
+incoming-art/
+backups/
+.chrome-*/
+desktop-*.png
+.tools/
+.DS_Store
