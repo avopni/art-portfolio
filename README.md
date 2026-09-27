@@ -27,4 +27,4 @@ The artist statement in `src/main.js` is a temporary draft. Update it with Megha
 
 ## GitHub Pages later
 
-After choosing a theme and confirming titles and statement, you can publish the `dist/` output to a GitHub Pages repository. `vite.config.js` uses relative asset paths so the build works from a repository subpath. There is no deployment or repository connection set up yet.
+The repository's `.github/workflows/pages.yml` builds and publishes `dist/` on each push to `main`. `vite.config.js` uses relative asset paths so the build works at `https://avopni.github.io/art-portfolio/`. In the GitHub repository, open **Settings → Pages** and select **GitHub Actions** under **Build and deployment → Source**. The workflow can also be started from the **Actions** tab using **Run workflow** after Pages is enabled. GitHub Pages on GitHub Free requires a public repository. Before treating the public site as final, confirm titles, artist statement, and image previews.
