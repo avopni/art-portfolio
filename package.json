@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "art:prepare": "node scripts/prepare-art.mjs"
+    "art:prepare": "node scripts/prepare-art.mjs",
+    "art:prepare-editexport": "node scripts/prepare-editexport.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.4",

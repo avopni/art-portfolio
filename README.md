@@ -15,9 +15,11 @@ Open the URL shown in the terminal. Use the dark bar at the top to compare **The
 
 `npm run build` produces the ready-to-host `dist/` folder. `npm run preview` serves that production build locally.
 
-## Add actual artwork
+## Artwork sources
 
-The seven JPGs in `public/art/` are reduced-size, lightly softened copies of Meghan's photographs from the shared folder. The originals copied to `incoming-art/` are ignored by Git. `npm run art:prepare` recreates the website copies at 1500 pixels on the long edge, with a mild prefilter to reduce visible canvas weave and no added sharpening. Run `node scripts/prepare-art.mjs --no-soften` to recreate unsoftened copies for comparison. All layouts read from `src/artworks.js`; titles are placeholders until Meghan provides the correct names and dates.
+Artworks 8–23 were curated from the 69 JPEGs in Meghan's shared `EditExport` folder. Nine wall photographed works received canvas edge and shadow cleanup; seven already clean exports were resized directly. The 16 website WebP copies are in `public/art/`. Originals and full-size cleanup previews are retained locally in ignored `incoming-art/EditExport/` and `incoming-art/edits/`. Run `npm run art:prepare-editexport` to recreate the website copies. See `docs/editexport-curation.md` for the selected sources and cleanup details.
+
+The first seven works came from Meghan's original shared folder. Their source photos are kept locally in ignored `incoming-art/`; `npm run art:prepare` recreates the earlier JPG website copies at 1500 pixels on the long edge, with a mild prefilter to reduce visible canvas weave and no added sharpening. Run `node scripts/prepare-art.mjs --no-soften` to compare unsoftened copies. All layouts read from `src/artworks.js`; titles and dates are placeholders until Meghan provides the correct details.
 
 The seven web JPGs from before edge cleanup are backed up locally in `backups/web-art-before-edge-cleanup-2026-09-26/` and are ignored by Git. The site uses cleaned preview PNGs for Artworks 2–7, cropped to the canvas or outer wood frame. Artwork 1 was already cropped to the painted surface. These image-edited previews may differ slightly from the source paintings, so compare them against the corresponding `public/art/work-XX.jpg` copies before using them as final catalog images. Change an image path in `src/artworks.js` to revert any site preview. Edit details and prompts are recorded in `docs/artwork-edge-cleanup.md`.
 
