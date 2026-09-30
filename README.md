@@ -25,7 +25,7 @@ The seven web JPGs from before edge cleanup are backed up locally in `backups/we
 
 The current source JPGs already contain visible canvas weave. The web resizing step cannot remove detail captured in the RAW. See `docs/moire-diagnosis.md` for the RAW comparison and recommended Lightroom export test.
 
-The artist statement in `src/main.js` is a temporary draft. Update it with Meghan's own words before publishing. Contact currently links to Instagram; no personal email address is assumed.
+The artist statement in `src/main.js` uses Meghan's supplied text. The home page contact section and `contact.html` share a form with Name, Email, Phone number, and Comment fields. The header Contact link opens the dedicated page. Email links and form submissions address `meghanvopni@gmail.com`; Send opens the visitor's email app with the form contents ready to send. Direct web submission requires connecting a form service.
 
 ## GitHub Pages later
 

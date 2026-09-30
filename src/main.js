@@ -3,6 +3,7 @@ import './style.css';
 
 const app = document.querySelector('#app');
 const isCollection = location.pathname.endsWith('/collection.html');
+const isContact = location.pathname.endsWith('/contact.html');
 const instagram = 'https://www.instagram.com/meghanvopni/';
 let activeFilter = 'All';
 let activeImage = null;
@@ -33,15 +34,16 @@ function gallery() {
 }
 
 function intro() {
-  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>A space<br/>to <em>see.</em></h1><p>An evolving collection of art and ideas.<br/>Take your time looking around.</p></div><div class="salon-hero-art"><div class="hero-frame"><img src="${artworks[4].image}" alt="${escapeHtml(artworks[4].alt)}" /></div></div></section>`;
+  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>Soothe<br/>your <em>soul</em></h1><p>an evolving collection of artwork and reflections<br/>Take your time looking around.</p></div><div class="salon-hero-art"><div class="hero-frame"><img src="${artworks[4].image}" alt="${escapeHtml(artworks[4].alt)}" /></div></div></section>`;
 }
 
 function about() {
-  return `<section class="about-section" id="about"><div class="about-label"><span class="eyebrow">A note from the studio</span></div><div class="about-content"><h2>Art is an invitation<br/>to <em>look again.</em></h2><p>Soft colour, layered marks, and room for the eye to wander. This portfolio gathers Meghan’s work in one place and lets each piece have space to breathe. An artist statement can be added here in Meghan’s own words.</p></div></section>`;
+  return `<section class="about-section" id="about"><div class="about-label"><span class="eyebrow">A note from the studio</span></div><div class="about-content"><h2>An invitation<br/>to <em>slow down</em></h2><p>Painting is an important way for Meghan to reflect on her relationships with other people, herself, and God and to practice sitting with the ambiguity of the middle—the uncomfortable, beautiful space where so much of life is lived.</p><p>In her paintings, Meghan explores methods and techniques for bringing the natural world to life on canvas through organic shapes and spontaneous mark-making. Her process moves between intention and spontaneity, embracing the unexpected moments that emerge somewhere between the two.</p><p>The many layers in her paintings create depth and invite the viewer to pause, rest and wonder. Her hope is that her work leaves you feeling both soothed and energized—much like you might feel after a morning hike through the woods.</p></div></section>`;
 }
 
 function contact() {
-  return `<section class="contact-section" id="contact"><span class="eyebrow">Keep in touch</span><h2>Let’s connect<span class="section-period">.</span></h2><p>For artwork inquiries or a conversation, find me on Instagram.</p><a class="contact-button" href="${instagram}" target="_blank" rel="noopener noreferrer">Visit @meghanvopni <span>↗</span></a></section>`;
+  const heading = isContact ? 'h1' : 'h2';
+  return `<section class="contact-section" id="contact" aria-labelledby="contact-heading"><div class="contact-content"><span class="eyebrow">Keep in touch</span><${heading} id="contact-heading">Contact</${heading}><p>For artwork inquiries or a conversation please email me at <a href="mailto:meghanvopni@gmail.com">meghanvopni@gmail.com</a> or fill out the form below.</p><form class="contact-form" data-contact-form><div class="contact-fields"><div class="contact-field"><label for="contact-name">Name</label><input id="contact-name" name="name" type="text" autocomplete="name" /></div><div class="contact-field"><label for="contact-email">Email <span aria-hidden="true">*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" required /></div></div><div class="contact-field"><label for="contact-phone">Phone number</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" /></div><div class="contact-field"><label for="contact-comment">Comment</label><textarea id="contact-comment" name="comment" rows="6" required></textarea></div><p class="contact-form-note" id="contact-form-note">Send opens your email app with your message ready to send.</p><button class="contact-button" type="submit" aria-describedby="contact-form-note">Send <span aria-hidden="true">↗</span></button></form></div></section>`;
 }
 
 function lightbox() {
@@ -52,8 +54,8 @@ function lightbox() {
 
 function render() {
   document.body.className = `theme-salon${activeImage ? ' modal-open' : ''}`;
-  document.title = isCollection ? 'The Collection — Meghan Vopni' : 'Meghan Vopni — Art Portfolio';
-  app.innerHTML = `<div class="site-shell"><header class="site-header"><a class="brand" href="./" aria-label="Meghan Vopni, home">Meghan Vopni</a><button class="menu-toggle" type="button" data-menu aria-label="Toggle navigation" aria-expanded="${menuOpen}">Menu <span>${menuOpen ? '×' : '+'}</span></button><nav class="site-nav ${menuOpen ? 'is-open' : ''}" aria-label="Main navigation"><a href="./collection.html" ${isCollection ? 'aria-current="page"' : ''}>The Collection</a><a href="${isCollection ? './' : ''}#about">About</a><a href="${isCollection ? './' : ''}#contact">Contact</a><a class="instagram-link" href="${instagram}" target="_blank" rel="noopener noreferrer" aria-label="Meghan Vopni on Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></nav></header><main id="top">${isCollection ? gallery() : intro() + gallery() + about() + contact()}</main><footer class="site-footer"><span>© ${new Date().getFullYear()} Meghan Vopni</span><span>Made to be looked at slowly.</span><a href="#top">Back to top ↑</a></footer></div>${lightbox()}`;
+  document.title = isContact ? 'Contact — Meghan Vopni' : isCollection ? 'The Collection — Meghan Vopni' : 'Meghan Vopni — Art Portfolio';
+  app.innerHTML = `<div class="site-shell"><header class="site-header"><a class="brand" href="./" aria-label="Meghan Vopni, home">Meghan Vopni</a><button class="menu-toggle" type="button" data-menu aria-label="Toggle navigation" aria-expanded="${menuOpen}">Menu <span>${menuOpen ? '×' : '+'}</span></button><nav class="site-nav ${menuOpen ? 'is-open' : ''}" aria-label="Main navigation"><a href="./collection.html" ${isCollection ? 'aria-current="page"' : ''}>The Collection</a><a href="${isCollection || isContact ? './' : ''}#about">About</a><a href="./contact.html" ${isContact ? 'aria-current="page"' : ''}>Contact</a><a class="instagram-link" href="${instagram}" target="_blank" rel="noopener noreferrer" aria-label="Meghan Vopni on Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></nav></header><main id="top">${isContact ? contact() : isCollection ? gallery() : intro() + gallery() + about() + contact()}</main><footer class="site-footer"><span>© ${new Date().getFullYear()} Meghan Vopni</span><span>A place to rest and wonder</span><a href="#top">Back to top ↑</a></footer></div>${lightbox()}`;
   if (activeImage) app.querySelector('.lightbox-close')?.focus();
 }
 
@@ -68,6 +70,16 @@ function stepImage(step) {
   activeImage = artworks[(index + step + artworks.length) % artworks.length].id;
   render();
 }
+
+app.addEventListener('submit', event => {
+  if (!event.target.matches('[data-contact-form]')) return;
+  event.preventDefault();
+  const form = event.target;
+  if (!form.reportValidity()) return;
+  const fields = new FormData(form);
+  const body = `Name: ${fields.get('name')}\nEmail: ${fields.get('email')}\nPhone number: ${fields.get('phone')}\n\n${fields.get('comment')}`;
+  location.href = `mailto:meghanvopni@gmail.com?subject=${encodeURIComponent('Artwork inquiry or conversation')}&body=${encodeURIComponent(body)}`;
+});
 
 app.addEventListener('click', event => {
   const filter = event.target.closest('[data-filter]');
