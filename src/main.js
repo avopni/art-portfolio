@@ -1,9 +1,10 @@
-﻿import { artworks } from './artworks.js';
+import { artworks } from './artworks.js';
 import './style.css';
 
 const app = document.querySelector('#app');
 const isCollection = location.pathname.endsWith('/collection.html');
 const isContact = location.pathname.endsWith('/contact.html');
+const arrowIcon = `<svg class="arrow-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg>`;
 const instagram = 'https://www.instagram.com/meghanvopni/';
 let activeFilter = 'All';
 let activeImage = null;
@@ -29,12 +30,12 @@ function gallery() {
     <div class="section-head"><div><span class="eyebrow">Selected work of Meghan Vopni</span><${heading} id="work-heading">The Collection</${heading}></div>${isCollection ? `<span class="work-count" aria-live="polite">${art.length} ${art.length === 1 ? 'piece' : 'pieces'}</span>` : ''}</div>
     ${isCollection ? `<div class="filters" role="group" aria-label="Filter artwork">${['All', 'Detail', 'Canvas', 'Framed'].map(filter => `<button type="button" class="filter ${activeFilter === filter ? 'is-active' : ''}" data-filter="${filter}" aria-pressed="${activeFilter === filter}">${filter}</button>`).join('')}</div>` : ''}
     <div class="gallery-grid">${art.map(artCard).join('')}</div>
-    ${isCollection ? '' : '<div class="view-all"><a class="text-link" href="./collection.html">View All <span aria-hidden="true">↗</span></a></div>'}
+    ${isCollection ? '' : `<div class="view-all"><a class="text-link" href="./collection.html">View All ${arrowIcon}</a></div>`}
   </section>`;
 }
 
 function intro() {
-  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>Soothe<br/>your <em>soul</em></h1><p>an evolving collection of artwork and reflections<br/>Take your time looking around.</p></div><div class="salon-hero-art"><div class="hero-frame"><img src="${artworks[4].image}" alt="${escapeHtml(artworks[4].alt)}" /></div></div></section>`;
+  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>Soothe<br/>your <em>soul</em></h1><p>an evolving collection of artwork and reflections</p></div><div class="salon-hero-art"><div class="hero-frame"><img src="${artworks[4].image}" alt="${escapeHtml(artworks[4].alt)}" /></div></div></section>`;
 }
 
 function about() {
@@ -43,7 +44,7 @@ function about() {
 
 function contact() {
   const heading = isContact ? 'h1' : 'h2';
-  return `<section class="contact-section" id="contact" aria-labelledby="contact-heading"><div class="contact-content"><span class="eyebrow">Keep in touch</span><${heading} id="contact-heading">Contact</${heading}><p>For artwork inquiries or a conversation please email me at <a href="mailto:meghanvopni@gmail.com">meghanvopni@gmail.com</a> or fill out the form below.</p><form class="contact-form" data-contact-form><div class="contact-fields"><div class="contact-field"><label for="contact-name">Name</label><input id="contact-name" name="name" type="text" autocomplete="name" /></div><div class="contact-field"><label for="contact-email">Email <span aria-hidden="true">*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" required /></div></div><div class="contact-field"><label for="contact-phone">Phone number</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" /></div><div class="contact-field"><label for="contact-comment">Comment</label><textarea id="contact-comment" name="comment" rows="6" required></textarea></div><p class="contact-form-note" id="contact-form-note">Send opens your email app with your message ready to send.</p><button class="contact-button" type="submit" aria-describedby="contact-form-note">Send <span aria-hidden="true">↗</span></button></form></div></section>`;
+  return `<section class="contact-section" id="contact" aria-labelledby="contact-heading"><div class="contact-content"><span class="eyebrow">Keep in touch</span><${heading} id="contact-heading">Contact</${heading}><p>For artwork inquiries or a conversation please email me at <a href="mailto:meghanvopni@gmail.com">meghanvopni@gmail.com</a> or fill out the form below.</p><form class="contact-form" data-contact-form><div class="contact-fields"><div class="contact-field"><label for="contact-name">Name</label><input id="contact-name" name="name" type="text" autocomplete="name" /></div><div class="contact-field"><label for="contact-email">Email <span aria-hidden="true">*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" required /></div></div><div class="contact-field"><label for="contact-phone">Phone number</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" /></div><div class="contact-field"><label for="contact-comment">Comment</label><textarea id="contact-comment" name="comment" rows="6" required></textarea></div><p class="contact-form-note" id="contact-form-note">Send opens your email app with your message ready to send.</p><button class="contact-button" type="submit" aria-describedby="contact-form-note">Send ${arrowIcon}</button></form></div></section>`;
 }
 
 function lightbox() {
@@ -55,7 +56,7 @@ function lightbox() {
 function render() {
   document.body.className = `theme-salon${activeImage ? ' modal-open' : ''}`;
   document.title = isContact ? 'Contact — Meghan Vopni' : isCollection ? 'The Collection — Meghan Vopni' : 'Meghan Vopni — Art Portfolio';
-  app.innerHTML = `<div class="site-shell"><header class="site-header"><a class="brand" href="./" aria-label="Meghan Vopni, home">Meghan Vopni</a><button class="menu-toggle" type="button" data-menu aria-label="Toggle navigation" aria-expanded="${menuOpen}">Menu <span>${menuOpen ? '×' : '+'}</span></button><nav class="site-nav ${menuOpen ? 'is-open' : ''}" aria-label="Main navigation"><a href="./collection.html" ${isCollection ? 'aria-current="page"' : ''}>The Collection</a><a href="${isCollection || isContact ? './' : ''}#about">About</a><a href="./contact.html" ${isContact ? 'aria-current="page"' : ''}>Contact</a><a class="instagram-link" href="${instagram}" target="_blank" rel="noopener noreferrer" aria-label="Meghan Vopni on Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></nav></header><main id="top">${isContact ? contact() : isCollection ? gallery() : intro() + gallery() + about() + contact()}</main><footer class="site-footer"><span>© ${new Date().getFullYear()} Meghan Vopni</span><span>A place to rest and wonder</span><a href="#top">Back to top ↑</a></footer></div>${lightbox()}`;
+  app.innerHTML = `<div class="site-shell"><header class="site-header"><a class="brand" href="./" aria-label="Meghan Vopni, home">Meghan Vopni</a><button class="menu-toggle" type="button" data-menu aria-label="${menuOpen ? 'Close navigation' : 'Open navigation'}" aria-controls="main-navigation" aria-expanded="${menuOpen}">Menu <span class="menu-icon" aria-hidden="true"></span></button><nav id="main-navigation" class="site-nav ${menuOpen ? 'is-open' : ''}" aria-label="Main navigation"><a href="./collection.html" ${isCollection ? 'aria-current="page"' : ''}>The Collection</a><a href="${isCollection || isContact ? './' : ''}#about">About</a><a href="./contact.html" ${isContact ? 'aria-current="page"' : ''}>Contact</a><a class="instagram-link" href="${instagram}" target="_blank" rel="noopener noreferrer" aria-label="Meghan Vopni on Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></nav></header><main id="top">${isContact ? contact() : isCollection ? gallery() : intro() + gallery() + about() + contact()}</main><footer class="site-footer"><span>© ${new Date().getFullYear()} Meghan Vopni</span><span>A place to rest and wonder</span><a href="#top">Back to top ↑</a></footer></div>${lightbox()}`;
   if (activeImage) app.querySelector('.lightbox-close')?.focus();
 }
 
@@ -89,11 +90,19 @@ app.addEventListener('click', event => {
   if (event.target.closest('[data-close]')) return closeImage();
   const step = event.target.closest('[data-step]');
   if (step) return stepImage(Number(step.dataset.step));
-  if (event.target.closest('[data-menu]')) { menuOpen = !menuOpen; render(); app.querySelector('[data-menu]')?.focus(); return; }
-  if (event.target.closest('.site-nav a')) { menuOpen = false; app.querySelector('.site-nav')?.classList.remove('is-open'); app.querySelector('.menu-toggle')?.setAttribute('aria-expanded', 'false'); }
+  if (event.target.closest('[data-menu]')) { menuOpen = !menuOpen; updateMenu(); return; }
+  if (event.target.closest('.site-nav a')) { menuOpen = false; updateMenu(); }
 });
 
+function updateMenu() {
+  app.querySelector('.site-nav')?.classList.toggle('is-open', menuOpen);
+  const toggle = app.querySelector('[data-menu]');
+  toggle?.setAttribute('aria-expanded', String(menuOpen));
+  toggle?.setAttribute('aria-label', menuOpen ? 'Close navigation' : 'Open navigation');
+}
+
 document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuOpen) { menuOpen = false; updateMenu(); app.querySelector('[data-menu]')?.focus(); }
   if (!activeImage) return;
   if (event.key === 'Escape') closeImage();
   if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') stepImage(event.key === 'ArrowRight' ? 1 : -1);
