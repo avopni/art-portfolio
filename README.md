@@ -1,6 +1,6 @@
-# Meghan Vopni — portfolio studies
+﻿# Meghan Vopni — portfolio studies
 
-A local prototype with five quiet gallery directions based on **The Salon**. Four earlier, more varied studies remain available under **Earlier studies**. The site is static, so it can be hosted on GitHub Pages without a server or paid service.
+A local art portfolio using **The Salon** design. The home page shows two selected works; `collection.html` shows all artwork with All, Detail, Canvas, and Framed filters. Both pages share a pinned header and gallery theme. The site is static, so it can be hosted on GitHub Pages without a server or paid service.
 
 ## Run locally
 
@@ -11,13 +11,13 @@ npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal. Use the dark bar at the top to compare **The Salon**, **Gallery Wall**, **The Collector**, **Soft Focus**, and **The Fold**. The chosen theme is kept in the URL, so each can be shared or bookmarked.
+Open the URL shown in the terminal. Click **The Collection** in the header or **View All** below the selected works to open the full gallery. Captions use the existing artwork titles and categories; optional dimensions, medium, and availability can be added in `src/artworks.js`.
 
 `npm run build` produces the ready-to-host `dist/` folder. `npm run preview` serves that production build locally.
 
 ## Artwork sources
 
-Artworks 8–23 were curated from the 69 JPEGs in Meghan's shared `EditExport` folder. Nine wall photographed works received canvas edge and shadow cleanup; seven already clean exports were resized directly. The 16 website WebP copies are in `public/art/`. Originals and full-size cleanup previews are retained locally in ignored `incoming-art/EditExport/` and `incoming-art/edits/`. Run `npm run art:prepare-editexport` to recreate the website copies. See `docs/editexport-curation.md` for the selected sources and cleanup details.
+Artworks 8–23 were curated from the 69 JPEGs in Meghan's shared `EditExport` folder. Nine wall photographed works received canvas edge and shadow cleanup; seven already clean exports were resized directly. The 16 website WebP copies are in `public/art/`. Originals and full-size cleanup previews are retained locally in ignored `incoming-art/EditExport/` and `incoming-art/edits/`. Run `npm run art:prepare-editexport` to recreate the website copies, `npm run art:prepare-instagram` for JPEG copies of artworks 8–23, and `npm run art:prepare-instagram-clean` to remove provenance metadata from the cleaned previews and make metadata-stripped original and cleaned JPEGs for artworks 3, 4, 6, and 7. See `docs/editexport-curation.md` for the selected sources and cleanup details.
 
 The first seven works came from Meghan's original shared folder. Their source photos are kept locally in ignored `incoming-art/`; `npm run art:prepare` recreates the earlier JPG website copies at 1500 pixels on the long edge, with a mild prefilter to reduce visible canvas weave and no added sharpening. Run `node scripts/prepare-art.mjs --no-soften` to compare unsoftened copies. All layouts read from `src/artworks.js`; titles and dates are placeholders until Meghan provides the correct details.
 
@@ -30,3 +30,4 @@ The artist statement in `src/main.js` is a temporary draft. Update it with Megha
 ## GitHub Pages later
 
 The repository's `.github/workflows/pages.yml` builds and publishes `dist/` on each push to `main`. `vite.config.js` uses relative asset paths so the build works at `https://avopni.github.io/art-portfolio/`. In the GitHub repository, open **Settings → Pages** and select **GitHub Actions** under **Build and deployment → Source**. The workflow can also be started from the **Actions** tab using **Run workflow** after Pages is enabled. GitHub Pages on GitHub Free requires a public repository. Before treating the public site as final, confirm titles, artist statement, and image previews.
+

@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "art:prepare": "node scripts/prepare-art.mjs",
-    "art:prepare-editexport": "node scripts/prepare-editexport.mjs"
+    "art:prepare-editexport": "node scripts/prepare-editexport.mjs",
+    "art:prepare-instagram": "node scripts/prepare-instagram-art.mjs",
+    "art:prepare-instagram-clean": "node scripts/prepare-instagram-clean.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.4",
