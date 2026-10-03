@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal. Click **The Collection** in the header or **View All** below the selected works to open the full gallery. Captions use the existing artwork titles and categories; optional dimensions, medium, and availability can be added in `src/artworks.js`.
+Open the URL shown in the terminal. Click **The Collection** in the header or **View All** below the selected works to open the full gallery. Artwork details and photo relationships are stored in `catalog/artworks.json`; see [the catalog format](docs/catalog.md).
 
 `npm run build` produces the ready-to-host `dist/` folder. `npm run preview` serves that production build locally.
 
@@ -19,9 +19,9 @@ Open the URL shown in the terminal. Click **The Collection** in the header or **
 
 Artworks 8–23 were curated from the 69 JPEGs in Meghan's shared `EditExport` folder. Nine wall photographed works received canvas edge and shadow cleanup; seven already clean exports were resized directly. The 16 website WebP copies are in `public/art/`. Originals and full-size cleanup previews are retained locally in ignored `incoming-art/EditExport/` and `incoming-art/edits/`. Run `npm run art:prepare-editexport` to recreate the website copies, `npm run art:prepare-instagram` for JPEG copies of artworks 8–23, and `npm run art:prepare-instagram-clean` to remove provenance metadata from the cleaned previews and make metadata-stripped original and cleaned JPEGs for artworks 3, 4, 6, and 7. See `docs/editexport-curation.md` for the selected sources and cleanup details.
 
-The first seven works came from Meghan's original shared folder. Their source photos are kept locally in ignored `incoming-art/`; `npm run art:prepare` recreates the earlier JPG website copies at 1500 pixels on the long edge, with a mild prefilter to reduce visible canvas weave and no added sharpening. Run `node scripts/prepare-art.mjs --no-soften` to compare unsoftened copies. All layouts read from `src/artworks.js`; titles and dates are placeholders until Meghan provides the correct details.
+The first seven works came from Meghan's original shared folder. Their source photos are kept locally in ignored `incoming-art/`; `npm run art:prepare` recreates the earlier JPG website copies at 1500 pixels on the long edge, with a mild prefilter to reduce visible canvas weave and no added sharpening. Run `node scripts/prepare-art.mjs --no-soften` to compare unsoftened copies. All layouts read the public fields projected from `catalog/artworks.json`; titles are placeholders until Meghan provides the correct details.
 
-The seven web JPGs from before edge cleanup are backed up locally in `backups/web-art-before-edge-cleanup-2026-09-26/` and are ignored by Git. The site uses cleaned preview PNGs for Artworks 2–7, cropped to the canvas or outer wood frame. Artwork 1 was already cropped to the painted surface. These image-edited previews may differ slightly from the source paintings, so compare them against the corresponding `public/art/work-XX.jpg` copies before using them as final catalog images. Change an image path in `src/artworks.js` to revert any site preview. Edit details and prompts are recorded in `docs/artwork-edge-cleanup.md`.
+The seven web JPGs from before edge cleanup are backed up locally in `backups/web-art-before-edge-cleanup-2026-09-26/` and are ignored by Git. The site uses cleaned preview PNGs for Artworks 2–7, cropped to the canvas or outer wood frame. Artwork 1 was already cropped to the painted surface. These image-edited previews may differ slightly from the source paintings, so compare them against the corresponding `public/art/work-XX.jpg` copies before using them as final catalog images. Change the photo's `repoImage` pointer in `catalog/artworks.json` to revert any site preview. Edit details and prompts are recorded in `docs/artwork-edge-cleanup.md`.
 
 The current source JPGs already contain visible canvas weave. The web resizing step cannot remove detail captured in the RAW. See `docs/moire-diagnosis.md` for the RAW comparison and recommended Lightroom export test.
 

@@ -8,6 +8,7 @@ const arrowIcon = `<svg class="arrow-icon" viewBox="0 0 20 20" width="18" height
 const instagram = 'https://www.instagram.com/meghanvopni/';
 let activeFilter = 'All';
 let activeImage = null;
+let activePhotoIndex = 0;
 let menuOpen = false;
 let returnFocus = null;
 
@@ -16,7 +17,7 @@ function escapeHtml(value) {
 }
 
 function artDetails(art) {
-  return [art.title, art.dimensions, art.medium || art.category, art.availability].filter(Boolean).map(escapeHtml).join(', ');
+  return [art.title, art.dimensions, art.style || art.medium || art.category, art.sold ? 'SOLD' : art.availability].filter(Boolean).map(escapeHtml).join(', ');
 }
 
 function artCard(art, index) {
@@ -24,18 +25,20 @@ function artCard(art, index) {
 }
 
 function gallery() {
-  const art = isCollection ? artworks.filter(art => activeFilter === 'All' || art.category === activeFilter) : [artworks[1], artworks[4]];
+  const featured = ['a02', 'a05'].map(id => artworks.find(art => art.id === id)).filter(Boolean);
+  const art = isCollection ? artworks.filter(art => activeFilter === 'All' || art.category === activeFilter) : (featured.length ? featured : artworks.slice(0, 2));
   const heading = isCollection ? 'h1' : 'h2';
   return `<section class="gallery-section ${isCollection ? 'collection-gallery' : 'selected-gallery'}" id="work" aria-labelledby="work-heading">
     <div class="section-head"><div><span class="eyebrow">Selected work of Meghan Vopni</span><${heading} id="work-heading">The Collection</${heading}></div>${isCollection ? `<span class="work-count" aria-live="polite">${art.length} ${art.length === 1 ? 'piece' : 'pieces'}</span>` : ''}</div>
     ${isCollection ? `<div class="filters" role="group" aria-label="Filter artwork">${['All', 'Detail', 'Canvas', 'Framed'].map(filter => `<button type="button" class="filter ${activeFilter === filter ? 'is-active' : ''}" data-filter="${filter}" aria-pressed="${activeFilter === filter}">${filter}</button>`).join('')}</div>` : ''}
-    <div class="gallery-grid">${art.map(artCard).join('')}</div>
+    <div class="gallery-grid">${art.map(artCard).join('')}</div>${art.length ? '' : '<p class="empty-gallery">No artwork is available in this collection yet.</p>'}
     ${isCollection ? '' : `<div class="view-all"><a class="text-link" href="./collection.html">View All ${arrowIcon}</a></div>`}
   </section>`;
 }
 
 function intro() {
-  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>Soothe<br/>your <em>soul</em></h1><p>an evolving collection of artwork and reflections</p></div><div class="salon-hero-art"><div class="hero-frame"><img src="${artworks[4].image}" alt="${escapeHtml(artworks[4].alt)}" /></div></div></section>`;
+  const heroArt = artworks.find(art => art.id === 'a05') || artworks[0];
+  return `<section class="hero hero-salon"><div class="salon-hero-copy"><span class="eyebrow">The art of Meghan Vopni</span><h1>Soothe<br/>your <em>soul</em></h1><p>an evolving collection of artwork and reflections</p></div>${heroArt ? `<div class="salon-hero-art"><div class="hero-frame"><img src="${heroArt.image}" alt="${escapeHtml(heroArt.alt)}" /></div></div>` : ''}</section>`;
 }
 
 function about() {
@@ -50,7 +53,8 @@ function contact() {
 function lightbox() {
   const art = artworks.find(item => item.id === activeImage);
   if (!art) return '';
-  return `<div class="lightbox" role="dialog" aria-modal="true" aria-label="${escapeHtml(art.title)}"><button type="button" class="lightbox-backdrop" data-close aria-label="Close artwork" tabindex="-1"></button><div class="lightbox-panel"><button class="lightbox-close" data-close type="button" aria-label="Close artwork">×</button><div class="lightbox-image"><img src="${art.image}" alt="${escapeHtml(art.alt)}" /></div><div class="lightbox-detail"><span class="eyebrow">Meghan Vopni / artwork</span><h2>${escapeHtml(art.title)}</h2><p>${artDetails(art)}</p><div class="lightbox-controls"><button type="button" data-step="-1" aria-label="Previous artwork">←</button><span>${String(artworks.indexOf(art) + 1).padStart(2, '0')} / ${artworks.length}</span><button type="button" data-step="1" aria-label="Next artwork">→</button></div></div></div></div>`;
+  const photo = art.photos[activePhotoIndex] || art.photos[0];
+  return `<div class="lightbox" role="dialog" aria-modal="true" aria-label="${escapeHtml(art.title)}"><button type="button" class="lightbox-backdrop" data-close aria-label="Close artwork" tabindex="-1"></button><div class="lightbox-panel"><button class="lightbox-close" data-close type="button" aria-label="Close artwork">×</button><div class="lightbox-image"><img src="${photo.image}" alt="${escapeHtml(photo.alt)}" /></div><div class="lightbox-detail"><span class="eyebrow">Meghan Vopni / artwork</span><h2>${escapeHtml(art.title)}</h2><p>${artDetails(art)}</p>${art.description ? `<p class="art-description">${escapeHtml(art.description)}</p>` : ''}${photo.caption ? `<p class="photo-caption">${escapeHtml(photo.caption)}</p>` : ''}${art.photos.length > 1 ? `<div class="photo-thumbnails" role="group" aria-label="Photos of this artwork">${art.photos.map((item, index) => `<button type="button" data-photo="${index}" aria-label="View photo ${index + 1} of ${art.photos.length}" aria-pressed="${index === activePhotoIndex}"><img src="${item.image}" alt="${escapeHtml(item.alt)}" /></button>`).join('')}</div><span class="photo-count">Photo ${activePhotoIndex + 1} / ${art.photos.length}</span>` : ''}<div class="lightbox-controls"><button type="button" data-step="-1" aria-label="Previous artwork">←</button><span>${String(artworks.indexOf(art) + 1).padStart(2, '0')} / ${artworks.length}</span><button type="button" data-step="1" aria-label="Next artwork">→</button></div></div></div></div>`;
 }
 
 function render() {
@@ -69,6 +73,7 @@ function closeImage() {
 function stepImage(step) {
   const index = artworks.findIndex(art => art.id === activeImage);
   activeImage = artworks[(index + step + artworks.length) % artworks.length].id;
+  activePhotoIndex = 0;
   render();
 }
 
@@ -86,7 +91,9 @@ app.addEventListener('click', event => {
   const filter = event.target.closest('[data-filter]');
   if (filter) { activeFilter = filter.dataset.filter; render(); app.querySelector(`[data-filter="${activeFilter}"]`)?.focus({ preventScroll: true }); return; }
   const art = event.target.closest('[data-art]');
-  if (art) { activeImage = art.dataset.art; returnFocus = activeImage; render(); return; }
+  if (art) { activePhotoIndex = 0; activeImage = art.dataset.art; returnFocus = activeImage; render(); return; }
+  const photo = event.target.closest('[data-photo]');
+  if (photo) { activePhotoIndex = Number(photo.dataset.photo); render(); app.querySelector(`[data-photo="${activePhotoIndex}"]`)?.focus(); return; }
   if (event.target.closest('[data-close]')) return closeImage();
   const step = event.target.closest('[data-step]');
   if (step) return stepImage(Number(step.dataset.step));

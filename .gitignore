@@ -6,3 +6,4 @@ backups/
 desktop-*.png
 .tools/
 .DS_Store
+.catalog-backups/
