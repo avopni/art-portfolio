@@ -1,4 +1,5 @@
 import { artworks } from './artworks.js';
+import { matchesFilters } from './collection-filters.js';
 import './style.css';
 
 const app = document.querySelector('#app');
@@ -6,7 +7,7 @@ const isCollection = location.pathname.endsWith('/collection.html');
 const isContact = location.pathname.endsWith('/contact.html');
 const arrowIcon = `<svg class="arrow-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg>`;
 const instagram = 'https://www.instagram.com/meghanvopni/';
-let activeFilter = 'All';
+const filters = { available: false, framed: false, sizes: new Set() };
 let activeImage = null;
 let activePhotoIndex = 0;
 let menuOpen = false;
@@ -21,17 +22,29 @@ function artDetails(art) {
 }
 
 function artCard(art, index) {
-  return `<figure class="art-card"><button class="art-image" type="button" data-art="${art.id}" aria-label="View ${escapeHtml(art.title)}"><img src="${art.image}" alt="${escapeHtml(art.alt)}" loading="${index < 3 ? 'eager' : 'lazy'}" /></button><figcaption class="art-caption">${artDetails(art)}</figcaption></figure>`;
+  return `<figure class="art-card"><button class="art-image" type="button" data-art="${art.id}" aria-label="View ${escapeHtml(art.title)}"><img src="${art.image}" alt="${escapeHtml(art.alt)}" loading="${index < 3 ? 'eager' : 'lazy'}" /></button><figcaption class="art-caption">${isCollection ? artDetails(art) : escapeHtml(art.title)}</figcaption></figure>`;
+}
+
+function filterButton(label, active) {
+  return `<button type="button" class="filter ${active ? 'is-active' : ''}" data-filter="${label}" aria-pressed="${active}">${label}</button>`;
+}
+
+function collectionFilters() {
+  const all = !filters.available && !filters.framed && !filters.sizes.size;
+  return `<div class="filters" role="group" aria-label="Filter artwork">
+    <div class="filter-group" role="group" aria-label="Availability and framing">${filterButton('All', all)}${filterButton('Available', filters.available)}${filterButton('Framed', filters.framed)}</div>
+    <div class="filter-group" role="group" aria-label="Size"><span class="filter-label">Size</span>${['Small', 'Medium', 'Large'].map(size => filterButton(size, filters.sizes.has(size))).join('')}</div>
+  </div>`;
 }
 
 function gallery() {
-  const featured = ['a02', 'a05'].map(id => artworks.find(art => art.id === id)).filter(Boolean);
-  const art = isCollection ? artworks.filter(art => activeFilter === 'All' || art.category === activeFilter) : (featured.length ? featured : artworks.slice(0, 2));
+  const featured = ['a02', 'a05', 'a01', 'a-a1d4b4d3-0744-4b9d-a4cd-d408cd1e6606'].map(id => artworks.find(art => art.id === id)).filter(Boolean);
+  const art = isCollection ? artworks.filter(art => matchesFilters(art, filters)) : (featured.length ? featured : artworks.slice(0, 2));
   const heading = isCollection ? 'h1' : 'h2';
   return `<section class="gallery-section ${isCollection ? 'collection-gallery' : 'selected-gallery'}" id="work" aria-labelledby="work-heading">
     <div class="section-head"><div><span class="eyebrow">Selected work of Meghan Vopni</span><${heading} id="work-heading">The Collection</${heading}></div>${isCollection ? `<span class="work-count" aria-live="polite">${art.length} ${art.length === 1 ? 'piece' : 'pieces'}</span>` : ''}</div>
-    ${isCollection ? `<div class="filters" role="group" aria-label="Filter artwork">${['All', 'Detail', 'Canvas', 'Framed'].map(filter => `<button type="button" class="filter ${activeFilter === filter ? 'is-active' : ''}" data-filter="${filter}" aria-pressed="${activeFilter === filter}">${filter}</button>`).join('')}</div>` : ''}
-    <div class="gallery-grid">${art.map(artCard).join('')}</div>${art.length ? '' : '<p class="empty-gallery">No artwork is available in this collection yet.</p>'}
+    ${isCollection ? collectionFilters() : ''}
+    <div class="gallery-grid">${art.map(artCard).join('')}</div>${art.length ? '' : '<p class="empty-gallery">No paintings match these filters. Try another size or select All to reset.</p>'}
     ${isCollection ? '' : `<div class="view-all"><a class="text-link" href="./collection.html">View All ${arrowIcon}</a></div>`}
   </section>`;
 }
@@ -89,7 +102,17 @@ app.addEventListener('submit', event => {
 
 app.addEventListener('click', event => {
   const filter = event.target.closest('[data-filter]');
-  if (filter) { activeFilter = filter.dataset.filter; render(); app.querySelector(`[data-filter="${activeFilter}"]`)?.focus({ preventScroll: true }); return; }
+  if (filter) {
+    const selected = filter.dataset.filter;
+    if (selected === 'All') { filters.available = false; filters.framed = false; filters.sizes.clear(); }
+    else if (selected === 'Available') filters.available = !filters.available;
+    else if (selected === 'Framed') filters.framed = !filters.framed;
+    else if (filters.sizes.has(selected)) filters.sizes.delete(selected);
+    else filters.sizes.add(selected);
+    render();
+    app.querySelector(`[data-filter="${selected}"]`)?.focus({ preventScroll: true });
+    return;
+  }
   const art = event.target.closest('[data-art]');
   if (art) { activePhotoIndex = 0; activeImage = art.dataset.art; returnFocus = activeImage; render(); return; }
   const photo = event.target.closest('[data-photo]');

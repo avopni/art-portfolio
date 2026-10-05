@@ -47,11 +47,13 @@ h1, h2, h3, p { margin-top: 0; }
 .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 44px; }
 .section-head h1, .section-head h2, .contact-section h1, .contact-section h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(48px, 6vw, 86px); font-weight: 400; letter-spacing: -.055em; line-height: 1.08; margin: 12px 0 0; }
 .work-count { font: 11px 'DM Mono', monospace; white-space: nowrap; color: var(--muted); padding-bottom: 9px; }
-.filters { display: flex; align-items: center; gap: 8px; margin-bottom: 44px; flex-wrap: wrap; }
+.filters { display: flex; align-items: center; gap: 16px 28px; margin-bottom: 44px; flex-wrap: wrap; }
+.filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-label { color: var(--muted); font-size: 12px; margin-right: 4px; }
 .filter { background: transparent; border: 1px solid var(--line); border-radius: 100px; padding: 9px 18px; color: var(--muted); font-size: 12px; }
 .filter:hover, .filter.is-active { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 45px 23px; }
-.selected-gallery .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5vw; max-width: 1060px; margin: 0 auto; }
+.selected-gallery .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px clamp(20px, 3vw, 44px); max-width: 1200px; margin: 0 auto; }
 .art-card { margin: 0; min-width: 0; }
 .art-image { display: flex; align-items: center; justify-content: center; width: 100%; padding: 0; border: 0; overflow: hidden; background: transparent; aspect-ratio: 1; }
 .art-image img { width: 100%; height: 100%; object-fit: contain; transition: opacity .25s; }
@@ -117,7 +119,7 @@ h1, h2, h3, p { margin-top: 0; }
   .section-head h1, .section-head h2, .contact-section h1, .contact-section h2 { font-size: clamp(45px, 9vw, 72px); }
   .section-head .eyebrow { font-size: 10px; letter-spacing: .1em; }
   .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 15px; }
-  .selected-gallery .gallery-grid { gap: 28px 15px; }
+  .selected-gallery .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 15px; }
   .art-caption { font-size: 11px; }
   .about-section { grid-template-columns: 1fr; gap: 30px; padding: 75px 5vw; }
   .about-flower { display: none; }

@@ -1,6 +1,6 @@
 ﻿# Meghan Vopni — portfolio studies
 
-A local art portfolio using **The Salon** design. The home page shows two selected works; `collection.html` shows all artwork with All, Detail, Canvas, and Framed filters. Both pages share a pinned header and gallery theme. The site is static, so it can be hosted on GitHub Pages without a server or paid service.
+A local art portfolio using **The Salon** design. The home page previews selected works, including Inner Knowing and In Full Bloom, with title-only captions. `collection.html` shows all artwork with combinable Available, Framed, and Small/Medium/Large filters. Selected sizes are combined; availability and framing narrow those results. All resets every filter. Sizes use the longest canvas edge: Small up to 16 inches, Medium over 16 through 24 inches, and Large over 24 inches. Both pages share a pinned header and gallery theme. The site is static, so it can be hosted on GitHub Pages without a server or paid service.
 
 ## Run locally
 
