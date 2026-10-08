@@ -21,8 +21,13 @@ function artDetails(art) {
   return [art.title, art.dimensions, art.style || art.medium || art.category, art.sold ? 'SOLD' : art.availability].filter(Boolean).map(escapeHtml).join(', ');
 }
 
+function artCaption(art) {
+  const details = [art.dimensions, art.style || art.medium || art.category, art.sold ? 'SOLD' : art.availability].filter(Boolean).map(escapeHtml).join(' · ');
+  return `<span class="art-caption-title">${escapeHtml(art.title)}</span>${details ? `<span class="art-caption-details">${details}</span>` : ''}`;
+}
+
 function artCard(art, index) {
-  return `<figure class="art-card"><button class="art-image" type="button" data-art="${art.id}" aria-label="View ${escapeHtml(art.title)}"><img src="${art.image}" alt="${escapeHtml(art.alt)}" loading="${index < 3 ? 'eager' : 'lazy'}" /></button><figcaption class="art-caption">${isCollection ? artDetails(art) : escapeHtml(art.title)}</figcaption></figure>`;
+  return `<figure class="art-card"><button class="art-image" type="button" data-art="${art.id}" aria-label="View ${escapeHtml(art.title)}"><img src="${art.image}" alt="${escapeHtml(art.alt)}" loading="${index < 3 ? 'eager' : 'lazy'}" /></button><figcaption class="art-caption">${isCollection ? artCaption(art) : escapeHtml(art.title)}</figcaption></figure>`;
 }
 
 function filterButton(label, active) {
