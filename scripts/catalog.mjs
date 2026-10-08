@@ -10,7 +10,7 @@ export async function readPublicArtworks(catalogPath) {
     }));
     const cover = photos.find(photo => photo.id === art.primaryPhotoId) || photos[0];
     photos.sort((a, b) => (a.id === cover.id ? -1 : b.id === cover.id ? 1 : 0));
-    return { id: art.id, title: art.title, dimensions: art.dimensions, style: art.style, category: art.category, description: art.description, sold: art.sold, image: cover.image, alt: cover.alt, photos };
+    return { id: art.id, title: art.title, dimensions: art.dimensions, style: art.style, category: art.category, description: art.sold ? [art.description?.replace(/\s*SOLD\s*$/i, '').trim(), 'SOLD'].filter(Boolean).join(' ') : art.description, sold: art.sold, image: cover.image, alt: cover.alt, photos };
   });
 }
 
